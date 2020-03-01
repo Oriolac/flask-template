@@ -23,4 +23,9 @@ def create_app():
     from .main import main_bp
     app.register_blueprint(main_bp)
 
+    @app.shell_context_processor
+    def make_shell_context():
+        from app.auth.models import User
+        return {'db': db, 'User': User}
+
     return app
