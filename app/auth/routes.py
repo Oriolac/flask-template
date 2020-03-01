@@ -7,6 +7,7 @@ from . import auth_bp
 from .forms import SignupForm, LoginForm
 from .models import User
 
+
 @auth_bp.route("/signup/", methods=["GET", "POST"])
 def show_signup_form():
     if current_user.is_authenticated:
@@ -18,7 +19,7 @@ def show_signup_form():
         email = form.email.data
         password = form.password.data
 
-        #Comprobació que no hi ha usuari amb email
+        # Comprobació que no hi ha usuari amb email
         user = User.get_by_email(email)
         if user is not None:
             error = f'El email {email} ja està utilitzat per un altre usuari.'
@@ -33,7 +34,8 @@ def show_signup_form():
             if not next or url_parse(next).netloc != '':
                 next = url_for('main.index')
             return redirect(next)
-    return render_template("auth/signup_form.html", form=form, error=error)
+    return render_template("signup_form.html", form=form, error=error)
+
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,7 +50,7 @@ def login():
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = url_for('main.index')
             return redirect(next_page)
-    return render_template('auth/login_form.html', form=form)
+    return render_template('login_form.html', form=form)
 
 
 @auth_bp.route('/logout')
